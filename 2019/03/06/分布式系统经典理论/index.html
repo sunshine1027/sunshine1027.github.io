@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="utf-8">
+  
+
+  
+  <title>分布式系统经典理论 | sunshine1027</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="当前大部分中、大型的网站基本都是分布式的。分布式最大的难点，在于各个节点之间信息和状态的同步。其中有2个这方面的基本理论，包括CAP定理以及BASE理论，是分布式系统的经典理论。 CAP定理CAP定理是2000年加州大学伯克利分校的Eric Brewer教授提出的，他告诉我们，在一个分布式系统中，不可能同时满足Consistency（一致性）、Availability（可用性）、Partition">
+<meta name="keywords" content="分布式">
+<meta property="og:type" content="article">
+<meta property="og:title" content="分布式系统经典理论">
+<meta property="og:url" content="http://yoursite.com/2019/03/06/分布式系统经典理论/index.html">
+<meta property="og:site_name" content="sunshine1027">
+<meta property="og:description" content="当前大部分中、大型的网站基本都是分布式的。分布式最大的难点，在于各个节点之间信息和状态的同步。其中有2个这方面的基本理论，包括CAP定理以及BASE理论，是分布式系统的经典理论。 CAP定理CAP定理是2000年加州大学伯克利分校的Eric Brewer教授提出的，他告诉我们，在一个分布式系统中，不可能同时满足Consistency（一致性）、Availability（可用性）、Partition">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:image" content="http://yoursite.com/2019/03/06/分布式系统经典理论/origin.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/06/分布式系统经典理论/write.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/06/分布式系统经典理论/timeout.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/06/分布式系统经典理论/block.png">
+<meta property="og:image" content="http://yoursite.com/2019/03/06/分布式系统经典理论/write.png">
+<meta property="og:updated_time" content="2019-03-05T16:29:17.419Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="分布式系统经典理论">
+<meta name="twitter:description" content="当前大部分中、大型的网站基本都是分布式的。分布式最大的难点，在于各个节点之间信息和状态的同步。其中有2个这方面的基本理论，包括CAP定理以及BASE理论，是分布式系统的经典理论。 CAP定理CAP定理是2000年加州大学伯克利分校的Eric Brewer教授提出的，他告诉我们，在一个分布式系统中，不可能同时满足Consistency（一致性）、Availability（可用性）、Partition">
+<meta name="twitter:image" content="http://yoursite.com/2019/03/06/分布式系统经典理论/origin.png">
+  
+    <link rel="alternate" href="/atom.xml" title="sunshine1027" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+</html>
+<body>
+  <div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">sunshine1027</a>
+      </h1>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="http://yoursite.com"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-分布式系统经典理论" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2019/03/06/分布式系统经典理论/" class="article-date">
+  <time datetime="2019-03-05T16:24:30.000Z" itemprop="datePublished">2019-03-06</time>
+</a>
+    
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      分布式系统经典理论
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>当前大部分中、大型的网站基本都是分布式的。分布式最大的难点，在于各个节点之间信息和状态的同步。其中有2个这方面的基本理论，包括CAP定理以及BASE理论，是分布式系统的经典理论。</p>
+<h2 id="CAP定理"><a href="#CAP定理" class="headerlink" title="CAP定理"></a>CAP定理</h2><p>CAP定理是2000年加州大学伯克利分校的Eric Brewer教授提出的，他告诉我们，在一个分布式系统中，不可能同时满足Consistency（一致性）、Availability（可用性）、Partition tolerance（分区容错性）这三个基本需求，最多只能满足其中的两个。</p>
+<h3 id="一致性"><a href="#一致性" class="headerlink" title="一致性"></a>一致性</h3><p>当一个客户端对于系统读取一个value时，不管从Node1或者Node2，读到的数据应当是一致的。</p>
+<p><img src="/2019/03/06/分布式系统经典理论/origin.png" width="40%" height="40%"></p>
+<p>如果这个时候，客户端对value进行了写入操作，从v0变成v1。这个时候如果对于Node1进行了写入操作，Node2的数据还未进行同步，那么就会出现如下场景。我们从Node1读取到的数据是新的v1，从Node2读取到的数据却是旧的v0，发生了数据不一致的情况。</p>
+<p><img src="/2019/03/06/分布式系统经典理论/write.png" width="40%" height="40%"></p>
+<p>CAP理论中的一致性就是要求当客户端或者服务器主动发起的写操作完毕后，所有客户端进行数据读取时，无论访问的是Node1还是Node2，都应当读取到最新的v1。</p>
+<h3 id="可用性"><a href="#可用性" class="headerlink" title="可用性"></a>可用性</h3><p>可用性的意思是指只要服务器收到用户的请求，服务器就必须在一定时间内给出响应。提取关键字，其实就是两个指标：</p>
+<ul>
+<li>给出响应 </li>
+<li>限定时间</li>
+</ul>
+<p>用户可以选择向Node1或Node2发起读操作。不管是哪台服务器，只要收到了请求，就必须在规定时间内给予用户value，否则就不满足可用性。</p>
+<p><img src="/2019/03/06/分布式系统经典理论/timeout.png" width="30%" height="30%"></p>
+<p>如上图1分钟都未给出响应，超过了用户能够容忍的时间，那么我们可以认为系统是不可用的。</p>
+<h3 id="分区容错性"><a href="#分区容错性" class="headerlink" title="分区容错性"></a>分区容错性</h3><p>在分布式系统中，存在很多的子网络。每个子网络就是一个区，由于一些原因导致这些网络之间通信的时候可能出现不联通的情况，但每个子网络内部通信是正常的，这种区间通信可能失败的情况称之为分区容错。</p>
+<p><img src="/2019/03/06/分布式系统经典理论/block.png" width="40%" height="40%"></p>
+<p>在这种情况下，仍然需要保证对我提供一致性和可用性的服务。</p>
+<h3 id="鱼与熊掌，不可兼得"><a href="#鱼与熊掌，不可兼得" class="headerlink" title="鱼与熊掌，不可兼得"></a>鱼与熊掌，不可兼得</h3><p>一般情况下，这3个特性是无法同时满足的。作为一个分布式系统，P是肯定需要满足的。在P满足的情况下，C和A是没办法同时成立的。</p>
+<p><img src="/2019/03/06/分布式系统经典理论/write.png" width="40%" height="40%"></p>
+<p>如果一致性满足，那么在上述过程中，client对Node1进行赋值，如果要保证一致性，需要对Node2的v0进行锁定操作，此时如果有请求获取Node2的v0时，会请求失败。不满足可用性。</p>
+<p>如果可用性满足，同样是上述case，那么Node1对Node2进行数据同步的时候，不能加锁。此时访问Node2获取的数据和Node1是不一致的，因此不满足一致性。</p>
+<p>那么有没有一种折中方案呢？有。</p>
+<h2 id="BASE理论"><a href="#BASE理论" class="headerlink" title="BASE理论"></a>BASE理论</h2><p>BASE是Bsically Available(基本可用)、Soft state(软状态)和Eventually consistent(最终一致性)的缩写。BASE是对CAP的一致性和可用性的权衡。</p>
+<h3 id="基本可用"><a href="#基本可用" class="headerlink" title="基本可用"></a>基本可用</h3><p>指在分布式系统出现故障的时候，允许损失部分可用性，包括响应时间延长、部分功能受影响。</p>
+<h3 id="软状态"><a href="#软状态" class="headerlink" title="软状态"></a>软状态</h3><p>允许数据存在中间状态，这种状态的存在不会影响系统的整体可用性，即允许不同节点的数据同步存在一定延时。</p>
+<h3 id="最终一致性"><a href="#最终一致性" class="headerlink" title="最终一致性"></a>最终一致性</h3><p>在上述数据同步后，最终能达到所有节点数据一致的情况。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="http://yoursite.com/2019/03/06/分布式系统经典理论/" data-id="cjsvzu8870000qwbyborebqt7" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/分布式/">分布式</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+  
+    <a href="/2019/02/17/分布式rpc框架/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">分布式rpc框架</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/rpc/">rpc</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/分布式/">分布式</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/呵呵/">呵呵</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/软素质/">软素质</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/rpc/" style="font-size: 10px;">rpc</a> <a href="/tags/分布式/" style="font-size: 20px;">分布式</a> <a href="/tags/呵呵/" style="font-size: 10px;">呵呵</a> <a href="/tags/软素质/" style="font-size: 10px;">软素质</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/03/">March 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2019/02/">February 2019</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2018/02/">February 2018</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2019/03/06/分布式系统经典理论/">分布式系统经典理论</a>
+          </li>
+        
+          <li>
+            <a href="/2019/02/17/分布式rpc框架/">分布式rpc框架</a>
+          </li>
+        
+          <li>
+            <a href="/2018/02/16/十年学会编程/">(转)十年学会编程</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2019 pengweikang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div>
+</body>
+</html>
