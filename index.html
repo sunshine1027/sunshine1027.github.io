@@ -302,6 +302,201 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/21/一次完整的浏览器请求流程/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="sunshine1027">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="sunshine1027">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/21/一次完整的浏览器请求流程/" class="post-title-link" itemprop="url">一次完整的浏览器请求流程</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-04-21 16:08:36 / Modified: 17:02:07" itemprop="dateCreated datePublished" datetime="2019-04-21T16:08:36+08:00">2019-04-21</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>当你打开浏览器，在浏览器中输入你想访问的地址，回车，以及目标页面展示的过程中到底发生了什么呢？其实这个看似很快的操作，经历了很多步骤。主要有下面几个步骤：</p>
+<ul>
+<li><ol>
+<li>浏览器搜索框内输入地址</li>
+</ol>
+</li>
+<li><ol start="2">
+<li>域名解析</li>
+</ol>
+</li>
+<li><ol start="3">
+<li>客户端发起TCP3次握手</li>
+</ol>
+</li>
+<li><ol start="4">
+<li>客户端发起http请求</li>
+</ol>
+</li>
+<li><ol start="5">
+<li>服务器接收http请求，作出响应，回传客户端</li>
+</ol>
+</li>
+<li><ol start="6">
+<li>浏览器对于结果进行展示</li>
+</ol>
+</li>
+<li><ol start="7">
+<li>选择性的关闭或者保持TCP连接</li>
+</ol>
+</li>
+</ul>
+<h2 id="浏览器搜索框内输入地址"><a href="#浏览器搜索框内输入地址" class="headerlink" title="浏览器搜索框内输入地址"></a>浏览器搜索框内输入地址</h2><p>我们在chrome浏览器中输入<a href="https://www.baidu.com/s?wd=test" target="_blank" rel="noopener">baidu.com/s?wd=test</a> 。假设我们是第一次使用chrome浏览器访问<a href="https://www.baidu.com/s?wd=test" target="_blank" rel="noopener">baidu.com/s?wd=test</a> 这个网址，<br>浏览器会为你自动添加前缀<a href="https://www.，添加后会访问[https://www.baidu.com/s?wd=test](https://www.baidu.com/s?wd=test)。https是其对于的方案，表示将采用https协议。" target="_blank" rel="noopener">https://www.，添加后会访问[https://www.baidu.com/s?wd=test](https://www.baidu.com/s?wd=test)。https是其对于的方案，表示将采用https协议。</a></p>
+<p>如果你之前访问过<a href="https://www.baidu.com/s?wd=test" target="_blank" rel="noopener">baidu.com/s?wd=test</a> 这个地址，浏览器会将其缓存。这次你访问这个地址的时候，浏览器就会默认填充，不用等你输入完成，点击回车就能访问之前缓存的地址。</p>
+<h2 id="域名解析"><a href="#域名解析" class="headerlink" title="域名解析"></a>域名解析</h2><p>浏览器会解析<strong><a href="http://www.baidu.com" target="_blank" rel="noopener">www.baidu.com</a></strong>这个域名对于的ip地址。</p>
+<p><img src="/2019/04/21/一次完整的浏览器请求流程/dns.jpg" width="40%" height="40%"></p>
+<h2 id="客户端发起TCP3次握手"><a href="#客户端发起TCP3次握手" class="headerlink" title="客户端发起TCP3次握手"></a>客户端发起TCP3次握手</h2><p>TCP的3次握手目的是建立连接，很多书或者博客已经介绍了客户端如何向服务端发起三次握手了，所以这里不再赘述了，就贴一张图，大家自己看看就好。</p>
+<p><img src="/2019/04/21/一次完整的浏览器请求流程/tcp_3.jpg" width="100%" height="100%"></p>
+<h2 id="客户端发起http请求"><a href="#客户端发起http请求" class="headerlink" title="客户端发起http请求"></a>客户端发起http请求</h2><p>HTTP请求报文分三部分：请求行，请求头和请求正文</p>
+<ul>
+<li>请求行：用于描述请求方式，需要访问的资源名称以及http的版本号</li>
+<li>请求头：请求的host，客户端的参数信息等</li>
+<li>请求正文：当使用POST、PUT等方法时，通常需要客户端向服务器传递数据 </li>
+</ul>
+<h2 id="服务器接收http请求，作出响应，回传客户端"><a href="#服务器接收http请求，作出响应，回传客户端" class="headerlink" title="服务器接收http请求，作出响应，回传客户端"></a>服务器接收http请求，作出响应，回传客户端</h2><p>HTTP响应也分三部分：状态码，响应头和实体内容</p>
+<ul>
+<li>状态码：状态码用于表示服务器对请求的处理结果</li>
+<li>响应头：响应头用于描述服务器的基本信息，以及客户端如何处理数据</li>
+<li>实体内容：服务器返回给客户端的数据，可以是各种格式的</li>
+</ul>
+<h2 id="浏览器对于结果进行展示"><a href="#浏览器对于结果进行展示" class="headerlink" title="浏览器对于结果进行展示"></a>浏览器对于结果进行展示</h2><p>浏览器在第5步操作中，拿到实体内容，会进行选择性展示。如果返回的实体内容是json，则直接展示json内容。如果是一个html页面，会进行渲染，然后呈现给用户。</p>
+<h2 id="选择性的关闭或者保持TCP连接"><a href="#选择性的关闭或者保持TCP连接" class="headerlink" title="选择性的关闭或者保持TCP连接"></a>选择性的关闭或者保持TCP连接</h2><p>其实一次tcp连接的成本还是蛮高的，大家可以看下面的图。</p>
+<p><img src="/2019/04/21/一次完整的浏览器请求流程/time.jpg" width="100%" height="100%"></p>
+<p>我们可以发现当返回的实体内容比较小并且存在客户端服务端多次交互的情况下，如果请求完毕立马关闭tcp连接，时间的消耗大多在连接和关闭上，真正请求、处理以及响应的时间反而占比比较小。对于这种情况，可以对tcp连接进行keep-alive。keep-alive会有一个timeout，这个可以在系统内核配置参数设定。当最后一次请求timeout时间内没有请求再打进来，则会断开连接。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/06/分布式系统经典理论/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1043,7 +1238,7 @@ public interface IOrderService {
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">3</span>
+                    <span class="site-state-item-count">4</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
@@ -1068,7 +1263,11 @@ public interface IOrderService {
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">5</span>
                     <span class="site-state-item-name">tags</span>
                   </a>
                 </div>
